@@ -52,7 +52,7 @@ public class GrdianController {
 		return grdianRepo.findById(id).get().getGrdians();
 		}
 
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public Grdian loginUser(@RequestBody String body) throws JSONException, IOException
 		{
 		JSONObject json = (JSONObject) JSONParser.parseJSON(body);

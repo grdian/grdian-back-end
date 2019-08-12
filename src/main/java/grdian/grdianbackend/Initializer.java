@@ -48,32 +48,77 @@ public class Initializer implements CommandLineRunner {
 	private void populateRepositories()
 		{
 		System.out.println("POPULATE");
-		Grdian grdian01 = EntityGenerator.generateRandomGrdian();
-		grdian01 = grdianRepo.save(grdian01);
-		Grdian grdian02 = EntityGenerator.generateRandomGrdian();
-		grdian02 = grdianRepo.save(grdian02);
-		Grdian grdian03 = EntityGenerator.generateRandomGrdian();
-		grdian03 = grdianRepo.save(grdian03);
-		Grdian grdian04 = EntityGenerator.generateRandomGrdian();
-		grdian04 = grdianRepo.save(grdian04);
 
-		grdian01.addGrdianToThisUser(grdian02);
-		grdian01.addGrdianToThisUser(grdian03);
-		grdian01 = grdianRepo.save(grdian01);
+		Grdian erlich = new Grdian("Erlich", "Bachman", "images/portraits/portrait_erlich_bachman.jpg", "0694201337", "bachmanity@piedpiper.net", "password");
+		erlich = grdianRepo.save(erlich);
+		Grdian bryce = new Grdian("Bryce", "Sampson", "images/portraits/portrait_bryce_sampson.jpg", "0987654321", "sampson@gmail.com", "password");
+		bryce = grdianRepo.save(bryce);
+		Grdian charles = new Grdian("Charles", "Doan", "images/portraits/portrait_charles_doan.jpg", "0987654321", "doan@gmail.com", "password");
+		charles = grdianRepo.save(charles);
+		Grdian lawrence = new Grdian("Lawrence", "Mboya", "images/portraits/portrait_lawrence_mboya.jpg", "1234567890", "mboya@gmail.com", "password");
+		lawrence = grdianRepo.save(lawrence);
+		Grdian nazik = new Grdian("Nazik", "Elhag", "images/portraits/portrait_nazik_elhag.jpg", "0987654321", "elhag@gmail.com", "password");
+		nazik = grdianRepo.save(nazik);
+		Grdian tyler = new Grdian("Tyler", "Conner", "images/portraits/portrait_tyler_conner.jpg", "0987654321", "conner@gmail.com", "password");
+		tyler = grdianRepo.save(tyler);
 
-		grdian02 = grdianRepo.findById(grdian02.getId()).get();
-		grdian02.addGrdianToThisUser(grdian03);
-		grdian02 = grdianRepo.save(grdian02);
+		erlich.addGrdianToThisUser(charles);
+		erlich.addGrdianToThisUser(tyler);
+		erlich = grdianRepo.save(erlich);
 
-		Alert alert01 = new Alert(grdian02);
-		alert01 = alertRepo.save(alert01);
+		bryce.addGrdianToThisUser(charles);
+		bryce.addGrdianToThisUser(lawrence);
+		bryce.addGrdianToThisUser(nazik);
+		bryce.addGrdianToThisUser(tyler);
+		bryce = grdianRepo.save(bryce);
 
-		alert01.markResolved();
-		alertRepo.save(alert01);
-		grdian02 = grdianRepo.findById(grdian02.getId()).get();
+		charles.addGrdianToThisUser(lawrence);
+		charles.addGrdianToThisUser(nazik);
+		charles.addGrdianToThisUser(tyler);
+		charles = grdianRepo.save(charles);
 
-		Alert alert02 = new Alert(grdian02);
-		alert02 = alertRepo.save(alert02);
+		lawrence.addGrdianToThisUser(nazik);
+		lawrence.addGrdianToThisUser(tyler);
+		lawrence = grdianRepo.save(lawrence);
+
+		nazik.addGrdianToThisUser(tyler);
+		nazik = grdianRepo.save(nazik);
+
+		Alert erlichAlert = new Alert(erlich, "Jian Yaaaaanngg!!");
+		alertRepo.save(erlichAlert);
+
+		Alert charlesAlert = new Alert(charles, "SQUIRRELS! SQUIRRELS EVERYWHERE!");
+		alertRepo.save(charlesAlert);
+
+		Alert tylerAlert = new Alert(tyler, "I'm out of hummus.");
+		alertRepo.save(tylerAlert);
+
+//		Grdian grdian01 = EntityGenerator.generateRandomGrdian();
+//		grdian01 = grdianRepo.save(grdian01);
+//		Grdian grdian02 = EntityGenerator.generateRandomGrdian();
+//		grdian02 = grdianRepo.save(grdian02);
+//		Grdian grdian03 = EntityGenerator.generateRandomGrdian();
+//		grdian03 = grdianRepo.save(grdian03);
+//		Grdian grdian04 = EntityGenerator.generateRandomGrdian();
+//		grdian04 = grdianRepo.save(grdian04);
+//
+//		grdian01.addGrdianToThisUser(grdian02);
+//		grdian01.addGrdianToThisUser(grdian03);
+//		grdian01 = grdianRepo.save(grdian01);
+//
+//		grdian02 = grdianRepo.findById(grdian02.getId()).get();
+//		grdian02.addGrdianToThisUser(grdian03);
+//		grdian02 = grdianRepo.save(grdian02);
+//
+//		Alert alert01 = new Alert(grdian02);
+//		alert01 = alertRepo.save(alert01);
+//
+//		alert01.markResolved();
+//		alertRepo.save(alert01);
+//		grdian02 = grdianRepo.findById(grdian02.getId()).get();
+//
+//		Alert alert02 = new Alert(grdian02);
+//		alert02 = alertRepo.save(alert02);
 		}
 
 	private void logStartOfInitializer()
