@@ -5,6 +5,7 @@ build/
 !**/src/main/**
 !**/src/test/**
 twilio.properties
+.DS_Store
 
 ### STS ###
 .apt_generated
