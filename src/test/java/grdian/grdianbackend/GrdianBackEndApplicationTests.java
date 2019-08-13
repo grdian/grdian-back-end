@@ -16,17 +16,26 @@ public class GrdianBackEndApplicationTests {
 	SMSManager smsSender;
 
 	@Test
-	public void contextLoads() {
-	}
-
-	public void sendsSmsMessage() {
-		// Enter recipient Phone Number into argument below
-		smsSender.sendSMSToIndividualPhoneNumber("+16143235338");
-	}
+	public void contextLoads()
+		{
+		}
 
 	@Test
-	public void sendsMultipleSMSMessages() {
+	public void sendsSmsMessageToDoanPhone()
+		{
+		// Enter recipient Phone Number into argument below
+		smsSender.sendSMSToIndividualPhoneNumber("+13304325448");
+		}
+
+	public void sendsSmsMessage()
+		{
+		// Enter recipient Phone Number into argument below
+		smsSender.sendSMSToIndividualPhoneNumber("+16143235338");
+		}
+
+	public void sendsMultipleSMSMessages()
+		{
 		smsSender.sendSMSToPhoneNumbers(SMSManager.getDefaultRecieverPhoneNumbers());
-	}
+		}
 
 }
