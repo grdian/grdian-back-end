@@ -28,4 +28,5 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile 'com.thedeanda:lorem:2.1'
+	implementation 'com.twilio.sdk:twilio:7.41.1'
 }
