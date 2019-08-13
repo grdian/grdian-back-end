@@ -1,7 +1,9 @@
 package grdian.grdianbackend.utility;
 
 import java.util.ArrayList;
+import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -11,9 +13,14 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
+import grdian.grdianbackend.entities.Alert;
+import grdian.grdianbackend.entities.Grdian;
+import grdian.grdianbackend.repos.AlertRepo;
+import grdian.grdianbackend.repos.GrdianRepo;
+
 @PropertySource("classpath:twilio.properties")
 @Service
-public class SmsSender {
+public class SMSManager {
 	// Find your Account Sid and Auth Token at twilio.com/console
 	@Value("${twilio.accountSid}")
 	private String accountSid;
@@ -21,6 +28,12 @@ public class SmsSender {
 	private String authKey;
 	@Value("${twilio.phoneNumber}")
 	private String senderPhoneNumber;
+
+	@Autowired
+	private GrdianRepo grdianRepo;
+
+	@Autowired
+	private AlertRepo alertRepo;
 
 	public void sendSMSToPhoneNumbers(ArrayList<String> receiverPhoneNumbers) {
 		for (String phoneNumber : receiverPhoneNumbers) {
@@ -35,12 +48,30 @@ public class SmsSender {
 		System.out.println(message.getSid());
 	}
 
+	public void sendSMSToIndividualPhoneNumber(String receiverPhoneNumber, String messageBody) {
+		Twilio.init(accountSid, authKey);
+		Message message = Message.creator(new PhoneNumber(receiverPhoneNumber), new PhoneNumber(senderPhoneNumber),
+				"Our Message: " + System.nanoTime()).create();
+		System.out.println(message.getSid());
+	}
+
 	public static ArrayList<String> getDefaultRecieverPhoneNumbers() {
 		ArrayList<String> receiverPhoneNumbers = new ArrayList<String>();
 		receiverPhoneNumbers.add("+16147076168");
 		receiverPhoneNumbers.add("+16143235338");
 		receiverPhoneNumbers.add("+16148225611");
+		receiverPhoneNumbers.add("+14196721859");
+		receiverPhoneNumbers.add("+13304325448");
 		return receiverPhoneNumbers;
+	}
+
+	public void notifyAlertReceiversThroughSMS(Alert alert) {
+		System.out.println(alert);
+		Grdian alertSender = alert.getSender();
+		Set<Grdian> alertReceivers = alertSender.getGrdians();
+		for (Grdian receiver : alertReceivers) {
+			sendSMSToIndividualPhoneNumber(receiver.getPhoneNumber(), "Grdian Alert!: " + alert.getMessage());
+		}
 	}
 
 }

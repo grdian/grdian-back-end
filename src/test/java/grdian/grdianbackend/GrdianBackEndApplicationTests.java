@@ -6,29 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import grdian.grdianbackend.utility.SmsSender;
+import grdian.grdianbackend.utility.SMSManager;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class GrdianBackEndApplicationTests {
 
 	@Autowired
-	SmsSender smsSender;
+	SMSManager smsSender;
 
 	@Test
 	public void contextLoads() {
 	}
 
-//	@Test
-//	public void sendsSmsMessage() {
-//		// Enter recipient Phone Number into argument below
-//		smsSender.sendSMSToIndividualPhoneNumber("+16143235338");
-//	}
+	public void sendsSmsMessage() {
+		// Enter recipient Phone Number into argument below
+		smsSender.sendSMSToIndividualPhoneNumber("+16143235338");
+	}
 
 	@Test
-	public void sendsMultipleSmsMessages() {
-		// Enter recipient Phone Number into argument below
-		smsSender.sendSMSToPhoneNumbers(SmsSender.getDefaultRecieverPhoneNumbers());
+	public void sendsMultipleSMSMessages() {
+		smsSender.sendSMSToPhoneNumbers(SMSManager.getDefaultRecieverPhoneNumbers());
 	}
 
 }
