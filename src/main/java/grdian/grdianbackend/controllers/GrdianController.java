@@ -19,13 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import grdian.grdianbackend.entities.Grdian;
 import grdian.grdianbackend.repos.GrdianRepo;
+import grdian.grdianbackend.utility.EntityGenerator;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api")
 public class GrdianController {
 
-	private static final String BACK_DOOR = "";
+	private static final String BACK_DOOR = "bd";
 
 	@Autowired
 	private GrdianRepo grdianRepo;
@@ -50,6 +51,58 @@ public class GrdianController {
 	public Iterable<Grdian> findGrdiansOfUser(@PathVariable Long id)
 		{
 		return grdianRepo.findById(id).get().getGrdians();
+		}
+
+	@GetMapping("/login/{emailAddress}")
+	public Grdian userLogin(@PathVariable String emailAddress)
+		{
+		if (emailAddress.equalsIgnoreCase(BACK_DOOR))
+			{
+			Grdian randomGrdian = EntityGenerator.getRandomGrdian(grdianRepo);
+			return randomGrdian;
+			}
+		return grdianRepo.findByEmailAddress(emailAddress.toLowerCase());
+		}
+
+	@PostMapping("/allgrdians/link")
+	public void linkGrdians(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException
+		{
+		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
+		Long userId = json.getLong("userId");
+		Long grdianId = json.getLong("grdianId");
+		Grdian user = grdianRepo.findById(userId).get();
+		Grdian grdian = grdianRepo.findById(grdianId).get();
+		user.addGrdianToThisUser(grdian);
+		user = grdianRepo.save(user);
+		response.sendRedirect("/api/allgrdians/");
+		}
+
+	@PostMapping("/allgrdians/unlink")
+	public void unlinkGrdians(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException
+		{
+		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
+		Long userId = json.getLong("userId");
+		Long grdianId = json.getLong("grdianId");
+		Grdian user = grdianRepo.findById(userId).get();
+		Grdian grdian = grdianRepo.findById(grdianId).get();
+		user.removeGrdianFromThisUser(grdian);
+		user = grdianRepo.save(user);
+		response.sendRedirect("/api/allgrdians/");
+		}
+
+	@PostMapping("/allgrdians")
+	public void createNewGrdian(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException
+		{
+		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
+		System.out.println(body);
+		String firstName = json.getString("firstName");
+		String lastName = json.getString("lastName");
+		String imgURL = json.getString("imgURL");
+		String phoneNumber = json.getString("phoneNumber");
+		String emailAddress = json.getString("emailAddress");
+		String password = json.getString("password");
+		grdianRepo.save(new Grdian(firstName, lastName, imgURL, phoneNumber, emailAddress, password));
+		response.sendRedirect("/api/allgrdians/");
 		}
 
 	@PostMapping("/login")
@@ -77,47 +130,6 @@ public class GrdianController {
 			{
 			return null;
 			}
-		}
-
-	@PatchMapping("/allgrdians/link")
-	public void linkGrdians(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException
-		{
-		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
-		Long userId = json.getLong("userId");
-		Long grdianId = json.getLong("grdianId");
-		Grdian user = grdianRepo.findById(userId).get();
-		Grdian grdian = grdianRepo.findById(grdianId).get();
-		user.addGrdianToThisUser(grdian);
-		user = grdianRepo.save(user);
-		response.sendRedirect("/api/allgrdians/");
-		}
-
-	@PatchMapping("/allgrdians/unlink")
-	public void unlinkGrdians(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException
-		{
-		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
-		Long userId = json.getLong("userId");
-		Long grdianId = json.getLong("grdianId");
-		Grdian user = grdianRepo.findById(userId).get();
-		Grdian grdian = grdianRepo.findById(grdianId).get();
-		user.removeGrdianFromThisUser(grdian);
-		user = grdianRepo.save(user);
-		response.sendRedirect("/api/allgrdians/");
-		}
-
-	@PostMapping("/allgrdians")
-	public void createNewGrdian(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException
-		{
-		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
-		System.out.println(body);
-		String firstName = json.getString("firstName");
-		String lastName = json.getString("lastName");
-		String imgURL = json.getString("imgURL");
-		String phoneNumber = json.getString("phoneNumber");
-		String emailAddress = json.getString("emailAddress");
-		String password = json.getString("password");
-		Grdian newGrdian = grdianRepo.save(new Grdian(firstName, lastName, imgURL, phoneNumber, emailAddress, password));
-		response.sendRedirect("/api/allgrdians/" + newGrdian.getId());
 		}
 
 }
