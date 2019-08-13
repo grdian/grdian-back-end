@@ -50,8 +50,9 @@ public class SMSManager {
 
 	public void sendSMSToIndividualPhoneNumber(String receiverPhoneNumber, String messageBody) {
 		Twilio.init(accountSid, authKey);
-		Message message = Message.creator(new PhoneNumber(receiverPhoneNumber), new PhoneNumber(senderPhoneNumber),
-				"Our Message: " + System.nanoTime()).create();
+		Message message = Message
+				.creator(new PhoneNumber(receiverPhoneNumber), new PhoneNumber(senderPhoneNumber), messageBody)
+				.create();
 		System.out.println(message.getSid());
 	}
 
@@ -70,7 +71,10 @@ public class SMSManager {
 		Grdian alertSender = alert.getSender();
 		Set<Grdian> alertReceivers = alertSender.getGrdians();
 		for (Grdian receiver : alertReceivers) {
-			sendSMSToIndividualPhoneNumber(receiver.getPhoneNumber(), "Grdian Alert!: " + alert.getMessage());
+			sendSMSToIndividualPhoneNumber(receiver.getPhoneNumber(),
+					"Grdian Alert from " + alertSender.getFirstName() + " " + alertSender.getLastName() + ": \""
+							+ alert.getMessage() + "\"\nUrgency: " + alert.getUrgency() + "\nLocation: "
+							+ alert.getLocation());
 		}
 	}
 

@@ -68,10 +68,8 @@ public class AlertController {
 		return activeAlerts;
 	}
 
-
 	@PostMapping("/allalerts/resolve")
-	public void resolveAlert(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException
-		{
+	public void resolveAlert(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException {
 		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
 		Long id = json.getLong("id");
 		Alert activeAlert = alertRepo.findById(id).get();
@@ -94,7 +92,7 @@ public class AlertController {
 		if (activeAlert != null) {
 			activeAlert.markResolved();
 		}
-		Alert newAlert = new Alert(sender, message);
+		Alert newAlert = new Alert(sender, message, urgency, location);
 		newAlert = alertRepo.save(newAlert);
 		// TWILIO FUNCTIONALITY
 		// ----------------------------------------------------------
