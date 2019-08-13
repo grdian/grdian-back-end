@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import grdian.grdianbackend.entities.Alert;
@@ -67,8 +68,10 @@ public class AlertController {
 		return activeAlerts;
 	}
 
-	@PatchMapping("/allalerts/resolve")
-	public void resolveAlert(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException {
+
+	@PostMapping("/allalerts/resolve")
+	public void resolveAlert(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException
+		{
 		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
 		Long id = json.getLong("id");
 		Alert activeAlert = alertRepo.findById(id).get();
@@ -81,8 +84,11 @@ public class AlertController {
 	public void createNewAlert(@RequestBody String jsonBody, HttpServletResponse response)
 			throws JSONException, IOException {
 		JSONObject json = (JSONObject) JSONParser.parseJSON(jsonBody);
+		System.out.println(json);
 		Long senderId = json.getLong("senderId");
 		String message = json.getString("message");
+		String urgency = json.getString("urgency");
+		String location = json.getString("location");
 		Grdian sender = grdianRepo.findById(senderId).get();
 		Alert activeAlert = sender.getActiveAlert();
 		if (activeAlert != null) {

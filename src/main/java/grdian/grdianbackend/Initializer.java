@@ -85,13 +85,13 @@ public class Initializer implements CommandLineRunner {
 		nazik.addGrdianToThisUser(tyler);
 		nazik = grdianRepo.save(nazik);
 
-		Alert erlichAlert = new Alert(erlich, "Jian Yaaaaanngg!!");
+		Alert erlichAlert = new Alert(erlich, "Jian Yaaaaanngg!!", "Moderate", "(12.0,15.123513)");
 		alertRepo.save(erlichAlert);
 
-		Alert charlesAlert = new Alert(charles, "SQUIRRELS! SQUIRRELS EVERYWHERE!");
+		Alert charlesAlert = new Alert(charles, "SQUIRRELS! SQUIRRELS EVERYWHERE!", "EMERGENCY", "(12.231,20.89513)");
 		alertRepo.save(charlesAlert);
 
-		Alert tylerAlert = new Alert(tyler, "I'm out of hummus.");
+		Alert tylerAlert = new Alert(tyler, "I'm out of hummus.", "Minor", "(86.9841,89.1123)");
 		alertRepo.save(tylerAlert);
 
 //		Grdian grdian01 = EntityGenerator.generateRandomGrdian();

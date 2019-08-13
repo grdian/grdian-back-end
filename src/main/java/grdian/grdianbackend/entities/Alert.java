@@ -25,12 +25,15 @@ public class Alert {
 	LocalDateTime timeStamp;
 	private String message;
 	private boolean resolved;
+	
+	private String urgency;
+	private String location;
 
 	public Alert()
 		{
 		}
 
-	public Alert(Grdian sender, String message)
+	public Alert(Grdian sender, String message, String urgency, String location)
 		{
 		Alert activeAlert = sender.getActiveAlert();
 		if (activeAlert != null)
@@ -39,13 +42,15 @@ public class Alert {
 			}
 		this.sender = sender;
 		this.message = message;
+		this.urgency = urgency;
+		this.location = location;
 		this.resolved = false;
 		timeStamp = LocalDateTime.now();
 		}
 
 	public Alert(Grdian sender)
 		{
-		this(sender, "ALERT: " + sender.getFirstName() + " " + sender.getLastName() + " needs help!");
+		this(sender, "ALERT: " + sender.getFirstName() + " " + sender.getLastName() + " needs help!", "HIGH", "(0.0,0.0)");
 		}
 
 	public String toString()
@@ -82,5 +87,15 @@ public class Alert {
 		{
 		this.resolved = true;
 		}
+
+	public String getUrgency() {
+		return urgency;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+	
+	
 
 }
