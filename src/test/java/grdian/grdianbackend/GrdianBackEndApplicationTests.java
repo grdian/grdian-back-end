@@ -14,14 +14,21 @@ public class GrdianBackEndApplicationTests {
 
 	@Autowired
 	SmsSender smsSender;
+
 	@Test
 	public void contextLoads() {
 	}
-	
+
+//	@Test
+//	public void sendsSmsMessage() {
+//		// Enter recipient Phone Number into argument below
+//		smsSender.sendSMSToIndividualPhoneNumber("+16143235338");
+//	}
+
 	@Test
-	public void sendsSmsMessage() {
-		//Enter recipient Phone Number into argument below
-		smsSender.sendSms("");
+	public void sendsMultipleSmsMessages() {
+		// Enter recipient Phone Number into argument below
+		smsSender.sendSMSToPhoneNumbers(SmsSender.getDefaultRecieverPhoneNumbers());
 	}
 
 }
