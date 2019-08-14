@@ -79,10 +79,10 @@ public class AlertController {
 		{
 		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
 		Long id = json.getLong("id");
-		Alert activeAlert = alertRepo.findById(id).get();
-		activeAlert.markResolved();
-		alertRepo.save(activeAlert);
-		response.sendRedirect("/api/allalerts");
+		Alert alert = alertRepo.findById(id).get();
+		alert.markResolved();
+		alertRepo.save(alert);
+		response.sendRedirect("/api/allalerts/" + alert.getId());
 		}
 
 	@PostMapping("/allalerts")
@@ -107,7 +107,7 @@ public class AlertController {
 		// UN-COMMENT TO RE-ENABLE SMS TEXT ALERTS
 		// smsManager.notifyAlertReceiversThroughSMS(newAlert);
 		// ----------------------------------------------------------
-		response.sendRedirect("/api/allalerts");
+		response.sendRedirect("/api/allalerts/" + newAlert.getId());
 		}
 
 }
