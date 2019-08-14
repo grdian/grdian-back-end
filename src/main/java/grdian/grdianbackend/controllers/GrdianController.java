@@ -101,35 +101,8 @@ public class GrdianController {
 		String phoneNumber = json.getString("phoneNumber");
 		String emailAddress = json.getString("emailAddress");
 		String password = json.getString("password");
-		grdianRepo.save(new Grdian(firstName, lastName, imgURL, phoneNumber, emailAddress, password));
-		response.sendRedirect("/api/allgrdians/");
-		}
-
-	@PostMapping("/login")
-	public Grdian loginUser(@RequestBody String body) throws JSONException, IOException
-		{
-		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
-		String emailAddress = json.getString("emailAddress").toLowerCase();
-
-		Grdian foundGrdian = grdianRepo.findByEmailAddress(emailAddress);
-
-		if (foundGrdian != null)
-			{
-			return foundGrdian;
-			}
-		else if (emailAddress.equalsIgnoreCase(BACK_DOOR))
-			{
-			Iterable<Grdian> foundGrdians = grdianRepo.findAll();
-			for (Grdian firstGrdianFound : foundGrdians)
-				{
-				return firstGrdianFound;
-				}
-			return null;
-			}
-		else
-			{
-			return null;
-			}
+		Grdian newGrdian = grdianRepo.save(new Grdian(firstName, lastName, imgURL, phoneNumber, emailAddress, password));
+		response.sendRedirect("/api/allgrdians/" + newGrdian.getId());
 		}
 
 }
