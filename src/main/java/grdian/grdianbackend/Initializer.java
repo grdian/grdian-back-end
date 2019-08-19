@@ -49,7 +49,7 @@ public class Initializer implements CommandLineRunner {
 		{
 		System.out.println("POPULATE");
 
-		Grdian erlich = new Grdian("Erlich", "Bachman", "images/portraits/portrait_erlich_bachman.jpg", "0694201337", "bachmanity@piedpiper.net", "password");
+		Grdian erlich = new Grdian("Erlich", "Bachman", "/images/portraits/portrait_erlich_bachman.jpg", "0694201337", "bachmanity@piedpiper.net", "password");
 		erlich = grdianRepo.save(erlich);
 
 		Grdian bryce = new Grdian("Bryce", "Sampson", "/images/portraits/portrait_bryce_sampson.jpg", "+14196721859",
