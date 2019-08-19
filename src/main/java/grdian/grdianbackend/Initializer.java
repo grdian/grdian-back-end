@@ -51,15 +51,22 @@ public class Initializer implements CommandLineRunner {
 
 		Grdian erlich = new Grdian("Erlich", "Bachman", "images/portraits/portrait_erlich_bachman.jpg", "0694201337", "bachmanity@piedpiper.net", "password");
 		erlich = grdianRepo.save(erlich);
-		Grdian bryce = new Grdian("Bryce", "Sampson", "images/portraits/portrait_bryce_sampson.jpg", "+14196721859", "sampson@gmail.com", "password");
+
+		Grdian bryce = new Grdian("Bryce", "Sampson", "/images/portraits/portrait_bryce_sampson.jpg", "+14196721859",
+				"sampson@gmail.com", "password");
 		bryce = grdianRepo.save(bryce);
-		Grdian charles = new Grdian("Charles", "Doan", "images/portraits/portrait_charles_doan.jpg", "+13304325448", "doan@gmail.com", "password");
+		Grdian charles = new Grdian("Charles", "Doan", "/images/portraits/portrait_charles_doan.jpg", "+13304325448",
+				"doan@gmail.com", "password");
 		charles = grdianRepo.save(charles);
-		Grdian lawrence = new Grdian("Lawrence", "Mboya", "images/portraits/portrait_lawrence_mboya.jpg", "+16148225611", "mboya@gmail.com", "password");
+		Grdian lawrence = new Grdian("Lawrence", "Mboya", "/images/portraits/portrait_lawrence_mboya.jpg",
+				"+16148225611", "mboya@gmail.com", "password");
 		lawrence = grdianRepo.save(lawrence);
-		Grdian nazik = new Grdian("Nazik", "Elhag", "images/portraits/portrait_nazik_elhag.jpg", "+16147076168", "elhag@gmail.com", "password");
+		Grdian nazik = new Grdian("Nazik", "Elhag", "/images/portraits/portrait_nazik_elhag.jpg", "+16147076168",
+				"elhag@gmail.com", "password");
 		nazik = grdianRepo.save(nazik);
-		Grdian tyler = new Grdian("Tyler", "Conner", "images/portraits/portrait_tyler_conner.jpg", "+16143235338", "conner@gmail.com", "password");
+		Grdian tyler = new Grdian("Tyler", "Conner", "/images/portraits/portrait_tyler_conner.jpg", "+16143235338",
+				"conner@gmail.com", "password");
+
 		tyler = grdianRepo.save(tyler);
 
 		erlich.addGrdianToThisUser(charles);
