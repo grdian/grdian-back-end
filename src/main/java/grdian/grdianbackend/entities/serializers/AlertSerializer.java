@@ -13,17 +13,19 @@ public class AlertSerializer extends StdSerializer<Alert> {
 
 	private static final long serialVersionUID = 1L;
 
-	public AlertSerializer() {
+	public AlertSerializer()
+		{
 		this(null);
-	}
+		}
 
-	public AlertSerializer(Class<Alert> alert) {
+	public AlertSerializer(Class<Alert> alert)
+		{
 		super(alert);
-	}
+		}
 
 	@Override
-	public void serialize(Alert alert, JsonGenerator jgen, SerializerProvider provider)
-			throws IOException, JsonProcessingException {
+	public void serialize(Alert alert, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException
+		{
 		jgen.writeStartObject();
 		jgen.writeNumberField("id", alert.getId());
 		jgen.writeNumberField("senderId", alert.getSender().getId());
@@ -31,10 +33,12 @@ public class AlertSerializer extends StdSerializer<Alert> {
 		jgen.writeStringField("message", alert.getMessage());
 		jgen.writeStringField("urgency", alert.getUrgency());
 		jgen.writeStringField("location", alert.getLocation());
+		jgen.writeNumberField("latitude", alert.getLatitude());
+		jgen.writeNumberField("longitude", alert.getLongitude());
 		jgen.writeStringField("senderFirstName", alert.getSender().getFirstName());
 		jgen.writeStringField("senderLastName", alert.getSender().getLastName());
 		jgen.writeBooleanField("resolved", alert.isResolved());
 		jgen.writeEndObject();
-	}
+		}
 
 }
