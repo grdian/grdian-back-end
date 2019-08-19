@@ -22,20 +22,23 @@ public class Alert {
 
 	@ManyToOne
 	private Grdian sender;
-
 	LocalDateTime timeStamp;
+
 	@Lob
 	private String message;
-	private boolean resolved;
-	
 	private String urgency;
+
 	private String location;
+	private double latitude;
+	private double longitude;
+
+	private boolean resolved;
 
 	public Alert()
 		{
 		}
 
-	public Alert(Grdian sender, String message, String urgency, String location)
+	public Alert(Grdian sender, String message, String urgency, String location, double latitude, double longitude)
 		{
 		Alert activeAlert = sender.getActiveAlert();
 		if (activeAlert != null)
@@ -46,13 +49,10 @@ public class Alert {
 		this.message = message;
 		this.urgency = urgency;
 		this.location = location;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.resolved = false;
 		timeStamp = LocalDateTime.now();
-		}
-
-	public Alert(Grdian sender)
-		{
-		this(sender, "ALERT: " + sender.getFirstName() + " " + sender.getLastName() + " needs help!", "HIGH", "(0.0,0.0)");
 		}
 
 	public String toString()
@@ -90,14 +90,24 @@ public class Alert {
 		this.resolved = true;
 		}
 
-	public String getUrgency() {
+	public String getUrgency()
+		{
 		return urgency;
-	}
+		}
 
-	public String getLocation() {
+	public String getLocation()
+		{
 		return location;
-	}
-	
-	
+		}
+
+	public double getLatitude()
+		{
+		return latitude;
+		}
+
+	public double getLongitude()
+		{
+		return longitude;
+		}
 
 }
