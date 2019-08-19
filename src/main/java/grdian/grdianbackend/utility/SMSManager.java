@@ -49,11 +49,15 @@ public class SMSManager {
 	}
 
 	public void sendSMSToIndividualPhoneNumber(String receiverPhoneNumber, String messageBody) {
-		Twilio.init(accountSid, authKey);
-		Message message = Message
-				.creator(new PhoneNumber(receiverPhoneNumber), new PhoneNumber(senderPhoneNumber), messageBody)
-				.create();
-		System.out.println(message.getSid());
+		try {
+			Twilio.init(accountSid, authKey);
+			Message message = Message
+					.creator(new PhoneNumber(receiverPhoneNumber), new PhoneNumber(senderPhoneNumber), messageBody)
+					.create();
+			System.out.println(message.getSid());
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
 	}
 
 	public static ArrayList<String> getDefaultRecieverPhoneNumbers() {

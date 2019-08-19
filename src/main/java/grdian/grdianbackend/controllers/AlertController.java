@@ -40,54 +40,47 @@ public class AlertController {
 	@Autowired
 	private SMSManager smsManager;
 
-	public AlertController()
-		{
-		}
+	public AlertController() {
+	}
 
 	@GetMapping("/allalerts")
-	public Iterable<Alert> sendAllAlerts()
-		{
+	public Iterable<Alert> sendAllAlerts() {
 		return alertRepo.findAll();
-		}
+	}
 
 	@GetMapping("/allalerts/{id}")
-	public Alert findSingleAlert(@PathVariable Long id)
-		{
+	public Alert findSingleAlert(@PathVariable Long id) {
 		return alertRepo.findById(id).get();
-		}
+	}
 
 	@GetMapping("/activealerts/{id}")
-	public Iterable<Alert> findActiveAlertsForGrdian(@PathVariable Long id)
-		{
+	public Iterable<Alert> findActiveAlertsForGrdian(@PathVariable Long id) {
 		Set<Alert> activeAlerts = new HashSet<Alert>();
 
 		Grdian grdian = grdianRepo.findById(id).get();
 		Set<Grdian> grdedUsers = grdian.getGrdedUsers();
-		for (Grdian user : grdedUsers)
-			{
+		for (Grdian user : grdedUsers) {
 			Alert activeAlert = user.getActiveAlert();
-			if (activeAlert != null)
-				{
+			if (activeAlert != null) {
 				activeAlerts.add(activeAlert);
-				}
 			}
-		return activeAlerts;
 		}
+		return activeAlerts;
+	}
 
 	@PostMapping("/allalerts/resolve")
-	public void resolveAlert(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException
-		{
+	public void resolveAlert(@RequestBody String body, HttpServletResponse response) throws JSONException, IOException {
 		JSONObject json = (JSONObject) JSONParser.parseJSON(body);
 		Long id = json.getLong("id");
 		Alert alert = alertRepo.findById(id).get();
 		alert.markResolved();
 		alertRepo.save(alert);
 		response.sendRedirect("/api/allalerts/" + alert.getId());
-		}
+	}
 
 	@PostMapping("/allalerts")
-	public void createNewAlert(@RequestBody String jsonBody, HttpServletResponse response) throws JSONException, IOException
-		{
+	public void createNewAlert(@RequestBody String jsonBody, HttpServletResponse response)
+			throws JSONException, IOException {
 		JSONObject json = (JSONObject) JSONParser.parseJSON(jsonBody);
 		System.out.println(json);
 		Long senderId = json.getLong("senderId");
@@ -96,18 +89,17 @@ public class AlertController {
 		String location = json.getString("location");
 		Grdian sender = grdianRepo.findById(senderId).get();
 		Alert activeAlert = sender.getActiveAlert();
-		if (activeAlert != null)
-			{
+		if (activeAlert != null) {
 			activeAlert.markResolved();
-			}
+		}
 		Alert newAlert = new Alert(sender, message, urgency, location);
 		newAlert = alertRepo.save(newAlert);
 		// TWILIO FUNCTIONALITY
 		// ----------------------------------------------------------
 		// UN-COMMENT TO RE-ENABLE SMS TEXT ALERTS
-		// smsManager.notifyAlertReceiversThroughSMS(newAlert);
+		smsManager.notifyAlertReceiversThroughSMS(newAlert);
 		// ----------------------------------------------------------
 		response.sendRedirect("/api/allalerts/" + newAlert.getId());
-		}
+	}
 
 }

@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -26,6 +27,7 @@ public class Grdian {
 
 	private String firstName;
 	private String lastName;
+	@Lob
 	private String imgURL;
 	private String phoneNumber;
 	private String emailAddress;
@@ -42,126 +44,104 @@ public class Grdian {
 	@OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
 	private Set<Alert> sentAlerts = new HashSet<Alert>();
 
-	public Grdian()
-		{
-		}
+	public Grdian() {
+	}
 
-	public Grdian(String firstName, String lastName, String imgURL, String phoneNumber, String emailAddress, String password)
-		{
+	public Grdian(String firstName, String lastName, String imgURL, String phoneNumber, String emailAddress,
+			String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.imgURL = imgURL;
 		this.phoneNumber = phoneNumber;
 		this.emailAddress = emailAddress;
 		this.password = password;
-		}
+	}
 
-	public void addGrdianToThisUser(Grdian grdian)
-		{
+	public void addGrdianToThisUser(Grdian grdian) {
 		this.grdians.add(grdian);
 		this.grdedUsers.add(grdian);
-		}
+	}
 
-	public void removeGrdianFromThisUser(Grdian grdian)
-		{
+	public void removeGrdianFromThisUser(Grdian grdian) {
 		this.grdians.remove(grdian);
 		this.grdedUsers.remove(grdian);
-		}
+	}
 
-	public String toString()
-		{
+	public String toString() {
 		String s = "";
 		s += "\n<" + this.id.longValue() + ": " + this.firstName + " " + this.lastName + ">";
 		String grdedBy = "\n  Guarded By:[ ";
-		for (Grdian grdian : this.grdians)
-			{
+		for (Grdian grdian : this.grdians) {
 			grdedBy += grdian.getId().longValue() + " ";
-			}
+		}
 		grdedBy += "]";
 
 		String grding = "\n  Guarding:[ ";
-		for (Grdian user : this.grdedUsers)
-			{
+		for (Grdian user : this.grdedUsers) {
 			grding += user.getId().longValue() + " ";
-			}
+		}
 		grding += "]";
 		s += grdedBy + grding;
 		return s;
-		}
+	}
 
-	public Long getId()
-		{
+	public Long getId() {
 		return id;
-		}
+	}
 
-	public String getFirstName()
-		{
+	public String getFirstName() {
 		return firstName;
-		}
+	}
 
-	public String getLastName()
-		{
+	public String getLastName() {
 		return lastName;
-		}
+	}
 
-	public String getImgURL()
-		{
+	public String getImgURL() {
 		return imgURL;
-		}
+	}
 
-	public String getPhoneNumber()
-		{
+	public String getPhoneNumber() {
 		return phoneNumber;
-		}
+	}
 
-	public String getEmailAddress()
-		{
+	public String getEmailAddress() {
 		return emailAddress;
-		}
+	}
 
-	public String getPassword()
-		{
+	public String getPassword() {
 		return password;
-		}
+	}
 
-	public void resolveAlerts()
-		{
-		for (Alert alert : sentAlerts)
-			{
+	public void resolveAlerts() {
+		for (Alert alert : sentAlerts) {
 			alert.markResolved();
-			}
 		}
+	}
 
-	public Alert getActiveAlert()
-		{
-		for (Alert alert : sentAlerts)
-			{
-			if (!alert.isResolved())
-				{
+	public Alert getActiveAlert() {
+		for (Alert alert : sentAlerts) {
+			if (!alert.isResolved()) {
 				return alert;
-				}
 			}
+		}
 		return null;
-		}
+	}
 
-	public Set<Alert> getSentAlerts()
-		{
+	public Set<Alert> getSentAlerts() {
 		return sentAlerts;
-		}
+	}
 
-	public Set<Grdian> getGrdians()
-		{
+	public Set<Grdian> getGrdians() {
 		return grdians;
-		}
+	}
 
-	public Set<Grdian> getGrdedUsers()
-		{
+	public Set<Grdian> getGrdedUsers() {
 		return grdedUsers;
-		}
+	}
 
 	@Override
-	public int hashCode()
-		{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
@@ -172,11 +152,10 @@ public class Grdian {
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
 		return result;
-		}
+	}
 
 	@Override
-	public boolean equals(Object obj)
-		{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -184,56 +163,42 @@ public class Grdian {
 		if (getClass() != obj.getClass())
 			return false;
 		Grdian other = (Grdian) obj;
-		if (emailAddress == null)
-			{
+		if (emailAddress == null) {
 			if (other.emailAddress != null)
 				return false;
-			}
-		else if (!emailAddress.equals(other.emailAddress))
+		} else if (!emailAddress.equals(other.emailAddress))
 			return false;
-		if (firstName == null)
-			{
+		if (firstName == null) {
 			if (other.firstName != null)
 				return false;
-			}
-		else if (!firstName.equals(other.firstName))
+		} else if (!firstName.equals(other.firstName))
 			return false;
-		if (id == null)
-			{
+		if (id == null) {
 			if (other.id != null)
 				return false;
-			}
-		else if (!id.equals(other.id))
+		} else if (!id.equals(other.id))
 			return false;
-		if (imgURL == null)
-			{
+		if (imgURL == null) {
 			if (other.imgURL != null)
 				return false;
-			}
-		else if (!imgURL.equals(other.imgURL))
+		} else if (!imgURL.equals(other.imgURL))
 			return false;
-		if (lastName == null)
-			{
+		if (lastName == null) {
 			if (other.lastName != null)
 				return false;
-			}
-		else if (!lastName.equals(other.lastName))
+		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (password == null)
-			{
+		if (password == null) {
 			if (other.password != null)
 				return false;
-			}
-		else if (!password.equals(other.password))
+		} else if (!password.equals(other.password))
 			return false;
-		if (phoneNumber == null)
-			{
+		if (phoneNumber == null) {
 			if (other.phoneNumber != null)
 				return false;
-			}
-		else if (!phoneNumber.equals(other.phoneNumber))
+		} else if (!phoneNumber.equals(other.phoneNumber))
 			return false;
 		return true;
-		}
+	}
 
 }
